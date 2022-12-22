@@ -7,14 +7,10 @@
     <title></title>
 </head>
 <body>
-<header class="p-3 bg-dark text-white">
+<header class="p-3 bg-dark text-white" >
     <div class="container-fluid">
         <div class="d-flex align-items-center">
-            <div class="me-auto">
-                <span th:utext="${user.getEmail()}" class="font-weight-bold"></span>
-                <span> with roles:</span>
-                <span th:each="role : ${user.getRoles()}" th:text="${role.getViewName()}" class="mx-1"></span>
-            </div>
+            <div class="me-auto js-header"></div>
             <a class="nav-link"  href="/logout">Logout</a>
         </div>
     </div>
@@ -23,15 +19,38 @@
     <div class="row flex-nowrap">
         <div class="col-md-3 col-xl-2 py-2">
             <ul class="nav nav-pills flex-column mb-auto">
-                <li class="nav-item" th:if="${user.getRolesForGoodView().contains('ADMIN')}">
-                    <a href="/admin" class="nav-link active" aria-current="page">Admin</a>
+                <li class="nav-item ">
+                    <a href="#" class="nav-link active toAdminPanel" aria-current="page" aria-selected="true">&emsp;Admin</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/user" class="nav-link" aria-current="page">User</a>
+                    <a href="#" class="nav-link toUserPanel" aria-current="page" aria-selected="false">&emsp; User</a>
                 </li>
             </ul>
         </div>
-        <div class="col">
+
+        <div class="col" style="display: none" id="user-panel">
+            <h1>User information-page</h1>
+            <div>
+                <div class="col-xxl-15 py-2 bg-light border">
+                    <h5 class="mx-3">About user</h5>
+                </div>
+                <table class="table border">
+                    <thead>
+                    <tr class="table-light">
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Roles</th>
+                    </tr>
+                    </thead>
+                    <tbody class="js-tableUser"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col" id="admin-panel">
             <h1 class="mx-1 my-3">Admin panel</h1>
             <div>
                 <nav class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -59,6 +78,7 @@
                     <tbody class="js-table"></tbody>
                 </table>
             </div>
+
             <div id="add-user-form" class="collapse">
                 <div class="col-xxl-15 py-2 bg-light border">
                     <h5 class="mx-3">Add new user</h5>

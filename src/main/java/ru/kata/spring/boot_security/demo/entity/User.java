@@ -78,26 +78,8 @@ public class User implements UserDetails {
         return role.replaceAll("ROLE_", "");
     }
 
-    public void addRoles(Set<String> rolesName) {
-        if (roles == null) {
-            roles = new HashSet<>();
-        }
-        roles.add(new Role(2, "ROLE_USER"));
-        for (String name : rolesName) {
-            if (name.contains("ROLE_ADMIN")) {
-                roles.add(new Role(1, "ROLE_ADMIN"));
-            }
-        }
-    }
-
-    public void setRoles(Set<String> rolesName) {
-        roles = new HashSet<>();
-        roles.add(new Role(2, "ROLE_USER"));
-        for (String name : rolesName) {
-            if (name.contains("ROLE_ADMIN")) {
-                roles.add(new Role(1, "ROLE_ADMIN"));
-            }
-        }
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public int getId() {

@@ -15,13 +15,14 @@ import java.util.Set;
 @Service
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
-
+    private RoleService roleService;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleService roleService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.roleService = roleService;
     }
 
     public User findByEmail(String email) {
@@ -40,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public void save(User newUser, Set<String> roles) {
-        newUser.addRoles(roles);
+        roleService.addRoles(roles, newUser);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         userRepository.save(newUser);
     }
@@ -63,7 +64,7 @@ public class UserServiceImpl implements UserService {
     public void update(int id, User user, Set<String> listOfRoles) {
         User updatedUser = userRepository.getById(id);
         user.setId(id);
-        user.addRoles(listOfRoles);
+        roleService.addRoles(listOfRoles, user);
         if (!StringUtils.isEmpty(user.getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         } else {

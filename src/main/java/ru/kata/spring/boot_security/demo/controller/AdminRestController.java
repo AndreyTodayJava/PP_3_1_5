@@ -5,21 +5,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.services.UserService;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Set;
 
-@org.springframework.web.bind.annotation.RestController
+@RestController
 @RequestMapping("/rest")
-public class RestController {
+public class AdminRestController {
 
     private final UserService userService;
 
     @Autowired
-    public RestController(UserService userService) {
+    public AdminRestController(UserService userService) {
         this.userService = userService;
     }
 
@@ -27,6 +29,12 @@ public class RestController {
     public ResponseEntity<List<User>> getUserList(){
         List<User> list = userService.findAll();
         return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/user")
+    public User getUser(Principal principal) {
+        User user = (User) ((UsernamePasswordAuthenticationToken)principal).getPrincipal();
+         return user;
     }
 
     @PostMapping(value = "/new")
