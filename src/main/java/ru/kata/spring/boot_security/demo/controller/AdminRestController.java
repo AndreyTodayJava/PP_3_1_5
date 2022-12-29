@@ -32,9 +32,9 @@ public class AdminRestController {
     }
 
     @GetMapping(value = "/user")
-    public User getUser(Principal principal) {
+    public ResponseEntity<User> getUser(Principal principal) {
         User user = (User) ((UsernamePasswordAuthenticationToken)principal).getPrincipal();
-         return user;
+         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping(value = "/new")
