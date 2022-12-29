@@ -33,8 +33,8 @@ public class AdminRestController {
 
     @GetMapping(value = "/user")
     public ResponseEntity<User> getUser(Principal principal) {
-        User user = (User) ((UsernamePasswordAuthenticationToken)principal).getPrincipal();
-         return new ResponseEntity<>(user, HttpStatus.OK);
+        User user = (User) ((UsernamePasswordAuthenticationToken)principal).getPrincipal(); // c базы сделать
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping(value = "/new")
